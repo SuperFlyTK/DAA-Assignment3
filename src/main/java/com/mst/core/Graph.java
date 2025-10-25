@@ -27,13 +27,20 @@ public class Graph {
     }
 
     public Vertex addVertex(String id, String districtName) {
+        if (vertices.containsKey(id)) {
+            throw new IllegalArgumentException("Vertex with id '" + id + "' already exists");
+        }
         Vertex vertex = new Vertex(id, districtName);
         vertices.put(id, vertex);
         return vertex;
     }
 
     public Vertex getVertex(String id) {
-        return vertices.get(id);
+        Vertex vertex = vertices.get(id);
+        if (vertex == null) {
+            throw new IllegalArgumentException("Vertex not found: " + id);
+        }
+        return vertex;
     }
 
     public boolean containsVertex(String id) {
@@ -44,18 +51,24 @@ public class Graph {
         validateVerticesExist(fromId, toId);
         validateWeight(weight);
 
-        Edge edge = new Edge(getVertex(fromId), getVertex(toId), weight, roadName);
+        Vertex from = getVertex(fromId);
+        Vertex to = getVertex(toId);
+
+        Edge edge = new Edge(from, to, weight, roadName);
         edges.add(edge);
 
-        getVertex(fromId).addAdjacentEdge(edge);
-        getVertex(toId).addAdjacentEdge(edge);
+        from.addAdjacentEdge(edge);
+        to.addAdjacentEdge(edge);
 
         return edge;
     }
 
     private void validateVerticesExist(String fromId, String toId) {
-        if (!vertices.containsKey(fromId) || !vertices.containsKey(toId)) {
-            throw new IllegalArgumentException("Both vertices must exist in graph: " + fromId + ", " + toId);
+        if (!vertices.containsKey(fromId)) {
+            throw new IllegalArgumentException("Source vertex not found: " + fromId);
+        }
+        if (!vertices.containsKey(toId)) {
+            throw new IllegalArgumentException("Target vertex not found: " + toId);
         }
     }
 
@@ -67,6 +80,7 @@ public class Graph {
 
     public boolean isConnected() {
         if (vertices.isEmpty()) return true;
+        if (edges.isEmpty()) return vertices.size() <= 1;
 
         Set<Vertex> visited = new HashSet<>();
         dfs(vertices.values().iterator().next(), visited);
@@ -106,10 +120,36 @@ public class Graph {
     public int getEdgeCount() { return edges.size(); }
     public Set<String> getVertexIds() { return vertices.keySet(); }
 
+    public Map<String, Object> getGraphStatistics() {
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("name", name);
+        stats.put("type", type);
+        stats.put("vertexCount", getVertexCount());
+        stats.put("edgeCount", getEdgeCount());
+        stats.put("density", getDensity());
+        stats.put("connected", isConnected());
+
+        // Degree statistics
+        List<Integer> degrees = vertices.values().stream()
+                .map(Vertex::getDegree)
+                .collect(Collectors.toList());
+        if (!degrees.isEmpty()) {
+            stats.put("maxDegree", Collections.max(degrees));
+            stats.put("minDegree", Collections.min(degrees));
+            stats.put("avgDegree", degrees.stream().mapToInt(Integer::intValue).average().orElse(0));
+        } else {
+            stats.put("maxDegree", 0);
+            stats.put("minDegree", 0);
+            stats.put("avgDegree", 0.0);
+        }
+
+        return stats;
+    }
+
     @Override
     public String toString() {
-        return String.format("Graph{name='%s', vertices=%d, edges=%d, density=%.2f, type=%s}",
-                name, vertices.size(), edges.size(), getDensity(), type);
+        return String.format("Graph{name='%s', vertices=%d, edges=%d, density=%.2f, type=%s, connected=%s}",
+                name, vertices.size(), edges.size(), getDensity(), type, isConnected());
     }
 
     public static class Builder {

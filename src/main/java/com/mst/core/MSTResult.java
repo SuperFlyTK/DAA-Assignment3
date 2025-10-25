@@ -19,4 +19,9 @@ public class MSTResult {
     public int getTotalCost() { return totalCost; }
     public int getOperationsCount() { return operationsCount; }
     public long getExecutionTime() { return executionTime; }
+
+    public void setMstEdges(List<Edge> mstEdges) { this.mstEdges = mstEdges; }
+    public void setTotalCost(int totalCost) { this.totalCost = totalCost; }
+    public void setOperationsCount(int operationsCount) { this.operationsCount = operationsCount; }
+    public void setExecutionTime(long executionTime) { this.executionTime = executionTime; }
 }
