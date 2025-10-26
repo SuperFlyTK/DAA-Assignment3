@@ -3,13 +3,9 @@ package com.mst;
 import com.mst.algorithms.PrimMST;
 import com.mst.algorithms.KruskalMST;
 import com.mst.core.Graph;
-import com.mst.core.Edge;
 import com.mst.core.MSTResult;
-import com.mst.util.GraphValidator;
+import com.mst.util.GraphValidator; // ✅ Правильный импорт
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
