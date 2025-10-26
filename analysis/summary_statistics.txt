@@ -1,0 +1,27 @@
+MST ALGORITHMS PERFORMANCE SUMMARY
+===================================
+
+SMALL DATASET (5 graphs):
+------------------------------------------------
+Prim's Algorithm:     Avg Time: 0,438 ms, Avg Operations: 366
+Kruskal's Algorithm:  Avg Time: 0,383 ms, Avg Operations: 612
+Performance Ratio:    Time: 1,143 (Prim/Kruskal), Operations: 0,597 (Prim/Kruskal)
+
+EXTRA_LARGE DATASET (5 graphs):
+------------------------------------------------
+Prim's Algorithm:     Avg Time: 144,183 ms, Avg Operations: 1059030
+Kruskal's Algorithm:  Avg Time: 62,514 ms, Avg Operations: 4537559
+Performance Ratio:    Time: 2,306 (Prim/Kruskal), Operations: 0,233 (Prim/Kruskal)
+
+LARGE DATASET (10 graphs):
+------------------------------------------------
+Prim's Algorithm:     Avg Time: 33,452 ms, Avg Operations: 207755
+Kruskal's Algorithm:  Avg Time: 18,275 ms, Avg Operations: 777601
+Performance Ratio:    Time: 1,830 (Prim/Kruskal), Operations: 0,267 (Prim/Kruskal)
+
+MEDIUM DATASET (10 graphs):
+------------------------------------------------
+Prim's Algorithm:     Avg Time: 9,565 ms, Avg Operations: 24070
+Kruskal's Algorithm:  Avg Time: 3,912 ms, Avg Operations: 73368
+Performance Ratio:    Time: 2,445 (Prim/Kruskal), Operations: 0,328 (Prim/Kruskal)
+
